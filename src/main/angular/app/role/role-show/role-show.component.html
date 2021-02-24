@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Роль #{{role.id}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="name" class="form-label">Имя</label>
+                <input type="text" class="form-control" id="name"
+                       [(ngModel)]="role.name" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="firstName" class="form-label">Отображаемое имя</label>
+                <input type="text" class="form-control" id="firstName"
+                       [(ngModel)]="role.displayName" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Описание</label>
+                <textarea class="form-control" id="description" rows="3" [(ngModel)]="role.description"
+                          readonly></textarea>
+            </div>
+<!--            <div class="mb-3">-->
+<!--                <label for="role" class="form-label">-->
+<!--                    <a routerLink="/policies/{{role.policyId}}">Политика</a>-->
+<!--                </label>-->
+<!--                <input type="text" class="form-control" id="role"-->
+<!--                       [(ngModel)]="role.policyDisplayName" readonly>-->
+<!--            </div>-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a routerLink=".." class="btn btn-outline-info">Список ролей</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Список ролей</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th colspan="3">
+                        <input type="text" class="form-control" id="roleFilter" name="roleFilter" placeholder="Фильтр"
+                               [(ngModel)]="roleFilterString">
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Отображаемое имя</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let role of (page.content | roleFilter:roleFilterString) || []; index as i" (click)="open(role)">
+                    <th scope="row">{{ role.id }}</th>
+                    <td>{{ role.name }}</td>
+                    <td>{{ role.displayName }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

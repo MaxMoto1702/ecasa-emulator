@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<application xmlns="http://rstyle.com/2014/mcaLoader">
+    <name>USPN</name>
+    <display_name>USPN (3.268.1)</display_name>
+    <regional>false</regional>
+    <role>
+        <name>Fake</name>
+        <display_name>Fake role</display_name>
+    </role>
+    <resource_type>
+        <name>Fake</name>
+        <display_name>Fake resource type</display_name>
+        <action>fake</action>
+        <resource>
+            <name>Fake</name>
+            <display_name>Fake resource</display_name>
+        </resource>
+    </resource_type>
+    <policy>
+        <name>Fake</name>
+        <display_name>Fake policy</display_name>
+        <deny>false</deny>
+        <semantic_and>false</semantic_and>
+        <role_name>Fake</role_name>
+    </policy>
+</application>

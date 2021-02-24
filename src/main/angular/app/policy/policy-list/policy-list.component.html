@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Список политик</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th colspan="3">
+                        <input type="text" class="form-control" id="roleFilter" name="roleFilter" placeholder="Фильтр"
+                               [(ngModel)]="policyFilterString">
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Отображаемое имя</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let policy of (page.content|policyFilter:policyFilterString) || []; index as i"
+                    (click)="open(policy)">
+                    <th scope="row">{{ policy.id }}</th>
+                    <td>{{ policy.name }}</td>
+                    <td>{{ policy.displayName }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

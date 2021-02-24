@@ -1,0 +1,156 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "com.github.node-gradle.node" version "2.2.4"
+}
+
+group = 'ru.softwarecom.uspn.emulators.ecasa'
+version = '1.0.1'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    jaxb
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "Hoxton.SR9")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
+    implementation 'org.springframework.session:spring-session-core'
+//    implementation 'org.springframework.session:spring-session-jdbc'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.ibm.db2:jcc'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.9'
+
+    testCompile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+
+    // Jaxb generator
+    compile("wsdl4j:wsdl4j:1.6.1")
+    jaxb("org.glassfish.jaxb:jaxb-xjc:2.2.11")
+//  compile(files(genJaxb.sourcesDir).builtBy(genJaxb))
+//	compile(files(genJaxb.classesDir).builtBy(genJaxb))
+
+    annotationProcessor('org.hibernate:hibernate-jpamodelgen')
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+node {
+    // Whether to download and install a specific Node.js version or not
+    // If false, it will use the globally installed Node.js
+    // If true, it will download node using above parameters
+    // Note that npm is bundled with Node.js
+    download = true
+
+    // Version of node to download and install (only used if download is true)
+    // It will be unpacked in the workDir
+    version = "14.15.4"
+
+    // Version of npm to use
+    // If specified, installs it in the npmWorkDir
+    // If empty, the plugin will use the npm command bundled with Node.js
+    npmVersion = "6.14.10"
+
+    // Version of Yarn to use
+    // Any Yarn task first installs Yarn in the yarnWorkDir
+    // It uses the specified version if defined and the latest version otherwise (by default)
+    yarnVersion = "1.22.10"
+
+    // Base URL for fetching node distributions
+    // Only used if download is true
+    // Change it if you want to use a mirror
+    // Or set to null if you want to add the repository on your own.
+    distBaseUrl = "https://nodejs.org/dist"
+
+    // The npm command executed by the npmInstall task
+    // By default it is install but it can be changed to ci
+    npmInstallCommand = "install"
+
+    // The directory where Node.js is unpacked (when download is true)
+    workDir = file("${project.projectDir}/.gradle/nodejs")
+
+    // The directory where npm is installed (when a specific version is defined)
+    npmWorkDir = file("${project.projectDir}/.gradle/npm")
+
+    // The directory where yarn is installed (when a Yarn task is used)
+    yarnWorkDir = file("${project.projectDir}/.gradle/yarn")
+}
+
+task genJaxb {
+	ext.sourcesDir = "${buildDir}/generated-jaxb-sources"
+//    ext.sourcesDir = "${projectDir}/src/main/java"
+//    ext.schema = "${projectDir}/src/main/resources/services/VerifyAuthenticationWSPort.xsd"
+    ext.schema = "${projectDir}/src/main/resources/ecasa.xsd"
+
+    doLast() {
+        project.ant {
+            taskdef(
+                    name: "xjc",
+                    classname: "com.sun.tools.xjc.XJCTask",
+                    classpath: configurations.jaxb.asPath
+            )
+            mkdir(dir: sourcesDir)
+
+            xjc(
+                    destdir: sourcesDir,
+                    schema: schema
+            ) {
+                arg(value: "-wsdl")
+                produces(
+                        dir: sourcesDir,
+                        includes: "**/*.java"
+                )
+            }
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file("src/generated/java")
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ['src/generated/java']
+        }
+    }
+}
+
+bootJar.dependsOn("npm_run_build")

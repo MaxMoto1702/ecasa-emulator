@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Список ролей пользователя #{{user.id}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-outline-danger" (click)="removeAllRoles()">Удалить все роли</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-outline-success" (click)="addAllNonIncludedRoles()">Добавить все роли</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th colspan="3">
+                        <input type="text" class="form-control" id="roleFilter" name="roleFilter" placeholder="Фильтр"
+                               [(ngModel)]="roleFilterString">
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">Наименование</th>
+                    <th scope="col" class="column-150"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let role of roles | roleFilter:roleFilterString; index as i">
+                    <td>{{ role.displayName }}</td>
+                    <td>
+                        <a routerLink="/roles/{{role.id}}" class="btn btn-outline-info btn-sm btn-40">&crarr;</a>
+                        <button class="btn btn-outline-danger btn-sm btn-40" (click)="remove(role)">X</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th colspan="3">
+                        <input type="text" class="form-control" id="nonIncludedRoleFilter" name="nonIncludedRoleFilter"
+                               placeholder="Фильтр"
+                               [(ngModel)]="nonIncludedRoleFilterString">
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">Наименование</th>
+                    <th scope="col" class="column-150"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let role of nonIncludedRoles | roleFilter:nonIncludedRoleFilterString; index as i">
+                    <td>{{ role.displayName }}</td>
+                    <td>
+                        <a routerLink="/roles/{{role.id}}" class="btn btn-outline-info btn-sm btn-40">&crarr;</a>
+                        <button class="btn btn-outline-success btn-sm btn-40" (click)="add(role)">+</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12"></div>
+    </div>
+</div>

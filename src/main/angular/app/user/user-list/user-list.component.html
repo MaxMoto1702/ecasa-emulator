@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Список пользователей</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-outline-info" routerLink="new">Добавить пользователя</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th colspan="7">
+                        <input type="text" class="form-control" id="roleFilter" name="roleFilter" placeholder="Фильтр"
+                               [(ngModel)]="userFilterString">
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Логин</th>
+                    <th scope="col">Электронная почта</th>
+                    <th scope="col">Полное имя</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Отчество</th>
+                    <th scope="col">Фамилия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of (page.content | userFilter:userFilterString) || []; index as i" (click)="open(user)">
+                    <th scope="row">{{ i + 1 }}</th>
+<!--                    <th scope="row">{{ user.id }}</th>-->
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.middleName }}</td>
+                    <td>{{ user.lastName }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

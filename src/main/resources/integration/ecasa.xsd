@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rstyle.com/2014/mcaLoader" targetNamespace="http://rstyle.com/2014/mcaLoader" elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:documentation>
+            Формат файла XML для регистрации функциональной подсистемы АИС ПФР-2 в МЦА
+        </xs:documentation>
+    </xs:annotation>
+    <xs:element name="application" type="tns:applicationType"/>
+    <xs:simpleType name="str_attributeType">
+        <xs:annotation>
+            <xs:documentation>
+                Простой тип, ограничивает длину строки 256 символами
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="str_nameType">
+        <xs:annotation>
+            <xs:documentation>
+                Простой тип, ограничивает длину строки 1024 символами
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="str_descriptionType">
+        <xs:annotation>
+            <xs:documentation>
+                Простой тип, ограничивает длину строки 4000 символами
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="str_resource_type_actionType">
+        <xs:annotation>
+            <xs:documentation>
+                Простой тип, ограничивает длину строки 48 символами
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="48"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="str_codeType">
+        <xs:annotation>
+            <xs:documentation>
+                Простой тип, определяет, что строка должна содержать 4 цифры
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="applicationType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="regional" type="xs:boolean" default="false"/>
+            <xs:element name="region" type="tns:regionType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="attribute_type" type="tns:attribute_typeType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="role_category" type="tns:role_categoryType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="role" type="tns:roleType" maxOccurs="unbounded"/>
+            <xs:element name="resource_type" type="tns:resource_typeType" maxOccurs="unbounded"/>
+            <xs:element name="entitlement" type="tns:entitlementType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="policy" type="tns:policyType" maxOccurs="unbounded"/>
+            <xs:element name="obligation_type" type="tns:obligation_typeType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="regionType">
+        <xs:sequence>
+            <xs:element name="code" type="tns:str_codeType"/>
+            <xs:element name="policy_name" type="tns:str_nameType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="role_name" type="tns:str_nameType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="attribute_typeType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_attributeType"/>
+            <xs:element name="for_policy" type="xs:boolean" default="false"/>
+            <xs:element name="attribute" type="tns:attributeType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="attributeType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="dynamic" type="xs:boolean" default="false"/>
+            <xs:element name="multiple" type="xs:boolean" default="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="roleType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="role_category_name" type="tns:str_nameType" minOccurs="0"/>
+            <xs:element name="parent_role_name" type="tns:str_nameType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="role_categoryType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="resource_typeType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="action" type="tns:str_resource_type_actionType" maxOccurs="unbounded"/>
+            <xs:element name="attribute_name" type="tns:str_nameType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="resource" type="tns:resourceType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="resourceType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="attribute_value" type="tns:attribute_valueType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="attribute_valueType">
+        <xs:sequence>
+            <xs:element name="attribute_name" type="tns:str_nameType"/>
+            <xs:element name="value" type="tns:str_nameType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="entitlementType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:choice>
+                <xs:element name="resource_actions" type="tns:resource_actionsType" maxOccurs="unbounded"/>
+                <xs:element name="filtered_resources_actions" type="tns:filtered_resources_actionsType" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="resource_actionsType">
+        <xs:sequence>
+            <xs:element name="resource_name" type="tns:str_nameType"/>
+            <xs:element name="resource_type_action" type="tns:str_resource_type_actionType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="filtered_resources_actionsType">
+        <xs:sequence>
+            <xs:element name="expression" type="tns:str_descriptionType"/>
+            <xs:element name="resource_type_action" type="tns:str_resource_type_actionType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="policyType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="deny" type="xs:boolean" default="false"/>
+            <xs:element name="semantic_and" type="xs:boolean" default="false"/>
+            <xs:element name="condition" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="condition_attribute" type="tns:condition_attributeType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="role_name" type="tns:str_nameType"/>
+            <xs:element name="entitlement_name" type="tns:str_nameType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="resource_actions" type="tns:resource_actionsType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="filtered_resources_actions" type="tns:filtered_resources_actionsType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="obligation" type="tns:obligationType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="condition_attributeType">
+        <xs:sequence>
+            <xs:element name="attribute_name" type="tns:str_nameType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="obligationType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="obligation_attribute" type="tns:obligation_attributeType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="obligation_attributeType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="attribute_type_name" type="tns:str_attributeType"/>
+            <xs:element name="obligation_attribute_value" type="tns:str_nameType" minOccurs="0"/>
+            <xs:element name="attribute_name" type="tns:str_nameType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="obligation_typeType">
+        <xs:sequence>
+            <xs:element name="name" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+            <xs:element name="description" type="tns:str_descriptionType" minOccurs="0"/>
+            <xs:element name="custom" type="xs:boolean" default="false"/>
+            <xs:element name="attribute_type_name" type="tns:str_attributeType"/>
+            <xs:element name="obligation_value" type="tns:obligation_valueType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="obligation_valueType">
+        <xs:sequence>
+            <xs:element name="value" type="tns:str_nameType"/>
+            <xs:element name="display_name" type="tns:str_nameType"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

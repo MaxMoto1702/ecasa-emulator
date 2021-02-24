@@ -1,0 +1,70 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Пользователь #{{user.id}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="username" class="form-label">Логин</label>
+                <input type="text" class="form-control" id="username"
+                       [(ngModel)]="user.username" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Электронная почта</label>
+                <input type="email" class="form-control" id="email"
+                       [(ngModel)]="user.email" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Полное имя</label>
+                <input type="text" class="form-control" id="name"
+                       [(ngModel)]="user.name" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="firstName" class="form-label">Имя</label>
+                <input type="text" class="form-control" id="firstName"
+                       [(ngModel)]="user.firstName" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="middleName" class="form-label">Отчество</label>
+                <input type="text" class="form-control" id="middleName"
+                       [(ngModel)]="user.middleName" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Фамилия</label>
+                <input type="text" class="form-control" id="lastName"
+                       [(ngModel)]="user.lastName" readonly>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="expired" [(ngModel)]="user.expired" readonly disabled>
+                <label class="form-check-label" for="expired">Истекший</label>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="locked" [(ngModel)]="user.locked" readonly disabled>
+                <label class="form-check-label" for="locked">Заблокирован</label>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="credentialsExpired" [(ngModel)]="user.credentialsExpired" readonly disabled>
+                <label class="form-check-label" for="credentialsExpired">Истекший пароль</label>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="enabled" [(ngModel)]="user.enabled" readonly disabled>
+                <label class="form-check-label" for="enabled">Действующий</label>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Описание</label>
+                <textarea class="form-control" id="description" rows="3" [(ngModel)]="user.description"
+                          readonly></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a routerLink=".." class="btn btn-outline-info">Список пользователей</a>
+            <a routerLink="./edit" class="btn btn-outline-info">Изменить</a>
+            <a routerLink="./roles" class="btn btn-outline-info">Показать/изменить роли</a>
+<!--            <a routerLink="./sessions" class="btn btn-outline-info">Показать сессии</a>-->
+        </div>
+    </div>
+</div>

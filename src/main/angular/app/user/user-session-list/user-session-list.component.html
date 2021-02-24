@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Список сессий пользователя #{{user.id}}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Creation Time</th>
+                    <th scope="col">Last Accessed Time</th>
+                    <th scope="col">Max Inactive Interval</th>
+                    <th scope="col">Expired</th>
+                    <th scope="col">IP</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let session of sessions; index as i" (click)="open(session)">
+                    <th scope="row">{{ session.id }}</th>
+                    <td>{{ session.creationTime }}</td>
+                    <td>{{ session.lastAccessedTime }}</td>
+                    <td>{{ session.maxInactiveInterval }}</td>
+                    <td>{{ session.expired }}</td>
+                    <td>{{ session.attributes['SPRING_SECURITY_CONTEXT'].details.remoteAddress }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
