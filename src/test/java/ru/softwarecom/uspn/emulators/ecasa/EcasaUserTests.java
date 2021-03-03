@@ -70,7 +70,7 @@ public class EcasaUserTests {
         log.debug("End get transaction");
 
 
-        assertEquals(userByLogin.getLogin(), "admin");
+        assertEquals(userByLogin.getUsername(), "admin");
         assertEquals(userByLogin.getRoles().size(), 1);
         assertDoesNotThrow(() -> {
             //noinspection ResultOfMethodCallIgnored
